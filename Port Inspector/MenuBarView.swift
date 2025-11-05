@@ -12,16 +12,49 @@ struct MenuBarView: View {
     @State private var searchText = ""
     @State private var selectedPort: PortInfo?
     
+    // Filter toggles
+    @State private var showListen = true
+    @State private var showEstablished = true
+    @State private var showOther = true
+    @State private var showTCP = true
+    @State private var showUDP = true
+    
     var filteredPorts: [PortInfo] {
-        if searchText.isEmpty {
-            return portScanner.ports
-        } else {
-            return portScanner.ports.filter { port in
+        var ports = portScanner.ports
+        
+        // Filter by state
+        ports = ports.filter { port in
+            let state = port.state.uppercased()
+            if state.contains("LISTEN") {
+                return showListen
+            } else if state.contains("ESTABLISHED") {
+                return showEstablished
+            } else {
+                return showOther
+            }
+        }
+        
+        // Filter by protocol
+        ports = ports.filter { port in
+            let proto = port.protocolType.lowercased()
+            if proto.contains("tcp") {
+                return showTCP
+            } else if proto.contains("udp") {
+                return showUDP
+            }
+            return true
+        }
+        
+        // Filter by search text
+        if !searchText.isEmpty {
+            ports = ports.filter { port in
                 "\(port.port)".contains(searchText) ||
                 port.processName.localizedCaseInsensitiveContains(searchText) ||
                 port.protocolType.localizedCaseInsensitiveContains(searchText)
             }
         }
+        
+        return ports
     }
     
     var body: some View {
@@ -72,6 +105,52 @@ struct MenuBarView: View {
             }
             .padding(8)
             .background(Color(NSColor.controlBackgroundColor))
+            
+            Divider()
+            
+            // Filter toggles
+            VStack(spacing: 8) {
+                // State filters
+                HStack(spacing: 12) {
+                    Text("State:")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                    
+                    Toggle("Listen", isOn: $showListen)
+                        .toggleStyle(.checkbox)
+                        .font(.caption)
+                    
+                    Toggle("Established", isOn: $showEstablished)
+                        .toggleStyle(.checkbox)
+                        .font(.caption)
+                    
+                    Toggle("Other", isOn: $showOther)
+                        .toggleStyle(.checkbox)
+                        .font(.caption)
+                    
+                    Spacer()
+                }
+                
+                // Protocol filters
+                HStack(spacing: 12) {
+                    Text("Protocol:")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                    
+                    Toggle("TCP", isOn: $showTCP)
+                        .toggleStyle(.checkbox)
+                        .font(.caption)
+                    
+                    Toggle("UDP", isOn: $showUDP)
+                        .toggleStyle(.checkbox)
+                        .font(.caption)
+                    
+                    Spacer()
+                }
+            }
+            .padding(.horizontal, 8)
+            .padding(.vertical, 6)
+            .background(Color(NSColor.controlBackgroundColor).opacity(0.5))
             
             Divider()
             

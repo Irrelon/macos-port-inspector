@@ -12,6 +12,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private var statusItem: NSStatusItem!
     private var popover: NSPopover!
     private var portScanner: PortScanner!
+    private var loginItemManager: LoginItemManager!
     
     func applicationDidFinishLaunching(_ notification: Notification) {
         // Create the status item in the menu bar
@@ -33,12 +34,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // Create the port scanner instance
         portScanner = PortScanner()
         
+        // Create the login item manager
+        loginItemManager = LoginItemManager()
+        
         // Create the popover
         popover = NSPopover()
         popover.contentSize = NSSize(width: 400, height: 500)
         popover.behavior = .transient
         popover.contentViewController = NSHostingController(
-            rootView: MenuBarView(portScanner: portScanner)
+            rootView: MenuBarView(portScanner: portScanner, loginItemManager: loginItemManager)
         )
     }
     

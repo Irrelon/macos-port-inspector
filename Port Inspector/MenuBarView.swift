@@ -9,6 +9,7 @@ import SwiftUI
 
 struct MenuBarView: View {
     @ObservedObject var portScanner: PortScanner
+    @ObservedObject var loginItemManager: LoginItemManager
     @State private var searchText = ""
     @State private var selectedPort: PortInfo?
     
@@ -111,6 +112,24 @@ struct MenuBarView: View {
                 .help("Quit Port Inspector")
             }
             .padding()
+            
+            Divider()
+            
+            // Auto-start toggle
+            HStack {
+                Toggle("Start at login", isOn: $loginItemManager.isEnabled)
+                    .toggleStyle(.checkbox)
+                    .font(.caption)
+                    .onChange(of: loginItemManager.isEnabled) { oldValue, newValue in
+                        if oldValue != newValue {
+                            loginItemManager.toggleLoginItem()
+                        }
+                    }
+                Spacer()
+            }
+            .padding(.horizontal, 8)
+            .padding(.vertical, 6)
+            .background(Color(NSColor.controlBackgroundColor).opacity(0.3))
             
             Divider()
             
@@ -260,9 +279,19 @@ struct MenuBarView: View {
         }
         .frame(width: 400, height: 500)
         .onAppear {
+            // Check login item status when menu opens
+            loginItemManager.checkLoginItemStatus()
+            
             if portScanner.ports.isEmpty {
                 portScanner.scanPorts()
             }
+        }
+        .alert("Login Item Error", isPresented: .constant(loginItemManager.errorMessage != nil)) {
+            Button("OK") {
+                loginItemManager.errorMessage = nil
+            }
+        } message: {
+            Text(loginItemManager.errorMessage ?? "")
         }
     }
 }
@@ -399,5 +428,5 @@ struct PortRowView: View {
 }
 
 #Preview {
-    MenuBarView(portScanner: PortScanner())
+    MenuBarView(portScanner: PortScanner(), loginItemManager: LoginItemManager())
 }

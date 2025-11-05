@@ -18,7 +18,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
         
         if let button = statusItem.button {
-            button.image = NSImage(systemSymbolName: "network", accessibilityDescription: "Irrelon Port Inspector")
+            // Use custom menu bar icon from assets
+            if let icon = NSImage(named: "MenuBarIcon") {
+                icon.isTemplate = true // Ensures it adapts to light/dark mode
+                button.image = icon
+            } else {
+                // Fallback to system icon
+                button.image = NSImage(systemSymbolName: "network", accessibilityDescription: "Port Inspector")
+            }
             button.action = #selector(togglePopover)
             button.target = self
         }

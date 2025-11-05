@@ -44,11 +44,14 @@ class PortScanner: ObservableObject {
         
         do {
             try lsofTask.run()
+            
+            // Read pipes BEFORE waiting to prevent deadlock
+            let outputData = outputPipe.fileHandleForReading.readDataToEndOfFile()
+            let errorData = errorPipe.fileHandleForReading.readDataToEndOfFile()
+            
             lsofTask.waitUntilExit()
             
             let exitCode = lsofTask.terminationStatus
-            let outputData = outputPipe.fileHandleForReading.readDataToEndOfFile()
-            let errorData = errorPipe.fileHandleForReading.readDataToEndOfFile()
             let errorOutput = String(data: errorData, encoding: .utf8) ?? ""
             
             if exitCode != 0 {
@@ -170,9 +173,12 @@ class PortScanner: ObservableObject {
         
         do {
             try psTask.run()
+            
+            // Read pipe BEFORE waiting to prevent deadlock
+            let outputData = outputPipe.fileHandleForReading.readDataToEndOfFile()
+            
             psTask.waitUntilExit()
             
-            let outputData = outputPipe.fileHandleForReading.readDataToEndOfFile()
             if let output = String(data: outputData, encoding: .utf8) {
                 let trimmed = output.trimmingCharacters(in: .whitespacesAndNewlines)
                 return trimmed.isEmpty ? "N/A" : trimmed

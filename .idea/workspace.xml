@@ -1,5 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="3e60c103-74d5-49a9-b3f4-abd04cfc8a21" name="Changes" comment="Kill process works">
+      <change beforePath="$PROJECT_DIR$/Port Inspector/MenuBarView.swift" beforeDir="false" afterPath="$PROJECT_DIR$/Port Inspector/MenuBarView.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Port Inspector/PortScanner.swift" beforeDir="false" afterPath="$PROJECT_DIR$/Port Inspector/PortScanner.swift" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RESET_MODE" value="HARD" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "git-widget-placeholder": "main",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)"
+  }
+}]]></component>
   <component name="RunManager">
     <configuration default="true" type="JetRunConfigurationType">
       <method v="2">
@@ -28,5 +54,58 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+  </component>
+  <component name="TaskManager">
+    <task id="LOCAL-00001" summary="Checkpoint">
+      <option name="closed" value="true" />
+      <created>1762377364801</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1762377364801</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Checkpoint">
+      <option name="closed" value="true" />
+      <created>1762377446562</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1762377446562</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Command args are now shown">
+      <option name="closed" value="true" />
+      <created>1762377644663</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1762377644663</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Kill process works">
+      <option name="closed" value="true" />
+      <created>1762377818429</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1762377818429</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Checkpoint" />
+    <MESSAGE value="Command args are now shown" />
+    <MESSAGE value="Kill process works" />
+    <option name="LAST_COMMIT_MESSAGE" value="Kill process works" />
   </component>
 </project>

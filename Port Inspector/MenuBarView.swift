@@ -67,10 +67,14 @@ struct MenuBarView: View {
             try killTask.run()
             killTask.waitUntilExit()
             
-            // Give the system a moment to clean up
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                // Clear selection
-                selectedPort = nil
+            print("Killed process \(pid), waiting before refresh...")
+            
+            // Clear selection immediately
+            selectedPort = nil
+            
+            // Give the system time to clean up the process
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                print("Refreshing port list after kill...")
                 // Refresh the port list
                 portScanner.scanPorts()
             }

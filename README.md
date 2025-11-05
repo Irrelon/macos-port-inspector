@@ -27,10 +27,11 @@ A macOS menu bar utility for monitoring active network ports and processes.
 
 ## Installation
 
-- Download Port Inspector.app
-- Move to Applications folder
+- Download the release zip file: https://github.com/Irrelon/macos-port-inspector/releases
+- Open the zip and move `Port Inspector.app` to Applications folder
 - Launch the app
-- Click the network icon in your menu bar
+- A new icon will appear in your menu bar
+- Click the icon to see the app
 
 ## Usage
 

@@ -117,15 +117,13 @@ class PortScanner: ObservableObject {
             
             // Extract port and state
             if let portInfo = parseConnectionInfo(connectionInfo, protocolName: protocolType) {
-                let commandLine = getCommandLine(pid: pid)
                 let port = PortInfo(
                     port: portInfo.port,
                     processName: processName,
                     processID: pid,
                     protocolType: portInfo.protocolType,
                     state: portInfo.state,
-                    address: portInfo.address,
-                    commandLine: commandLine
+                    address: portInfo.address
                 )
                 ports.append(port)
             }
@@ -159,34 +157,5 @@ class PortScanner: ObservableObject {
         }
         
         return nil
-    }
-    
-    private func getCommandLine(pid: Int) -> String {
-        // Use ps to get the full command line for the process
-        let psTask = Process()
-        psTask.executableURL = URL(fileURLWithPath: "/bin/ps")
-        psTask.arguments = ["-p", "\(pid)", "-o", "command="]
-        
-        let outputPipe = Pipe()
-        psTask.standardOutput = outputPipe
-        psTask.standardError = Pipe()
-        
-        do {
-            try psTask.run()
-            
-            // Read pipe BEFORE waiting to prevent deadlock
-            let outputData = outputPipe.fileHandleForReading.readDataToEndOfFile()
-            
-            psTask.waitUntilExit()
-            
-            if let output = String(data: outputData, encoding: .utf8) {
-                let trimmed = output.trimmingCharacters(in: .whitespacesAndNewlines)
-                return trimmed.isEmpty ? "N/A" : trimmed
-            }
-        } catch {
-            print("Failed to get command line for PID \(pid): \(error)")
-        }
-        
-        return "N/A"
     }
 }

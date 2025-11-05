@@ -15,21 +15,37 @@ struct PortInfo: Identifiable, Hashable {
     let protocolType: String
     let state: String
     let address: String
-    let commandLine: String
     
     var displayName: String {
         "\(protocolType.uppercased()) :\(port) - \(processName) (PID: \(processID))"
     }
     
-    var detailedInfo: String {
-        """
-        Port: \(port)
-        Protocol: \(protocolType.uppercased())
-        State: \(state)
-        Address: \(address)
-        Process: \(processName)
-        PID: \(processID)
-        Command: \(commandLine)
-        """
+    func getCommandLine() -> String {
+        // Fetch command line on-demand using ps
+        let psTask = Process()
+        psTask.executableURL = URL(fileURLWithPath: "/bin/ps")
+        psTask.arguments = ["-p", "\(processID)", "-o", "command="]
+        
+        let outputPipe = Pipe()
+        psTask.standardOutput = outputPipe
+        psTask.standardError = Pipe()
+        
+        do {
+            try psTask.run()
+            
+            // Read pipe before waiting to prevent deadlock
+            let outputData = outputPipe.fileHandleForReading.readDataToEndOfFile()
+            
+            psTask.waitUntilExit()
+            
+            if let output = String(data: outputData, encoding: .utf8) {
+                let trimmed = output.trimmingCharacters(in: .whitespacesAndNewlines)
+                return trimmed.isEmpty ? "N/A" : trimmed
+            }
+        } catch {
+            return "N/A"
+        }
+        
+        return "N/A"
     }
 }

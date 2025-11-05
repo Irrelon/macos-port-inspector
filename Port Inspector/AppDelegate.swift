@@ -18,7 +18,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
         
         if let button = statusItem.button {
-            button.image = NSImage(systemSymbolName: "network", accessibilityDescription: "Port Inspector")
+            button.image = NSImage(systemSymbolName: "network", accessibilityDescription: "Irrelon Port Inspector")
             button.action = #selector(togglePopover)
             button.target = self
         }

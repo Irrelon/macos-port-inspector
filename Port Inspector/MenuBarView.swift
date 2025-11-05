@@ -87,7 +87,7 @@ struct MenuBarView: View {
         VStack(spacing: 0) {
             // Header
             HStack {
-                Text("Port Inspector")
+                Text("Irrelon Port Inspector")
                     .font(.headline)
                 
                 Spacer()
@@ -272,6 +272,9 @@ struct PortRowView: View {
     let isSelected: Bool
     let onKillProcess: (Int) -> Void
     
+    @State private var commandLine: String = ""
+    @State private var isLoadingCommand = false
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
             HStack {
@@ -285,7 +288,7 @@ struct PortRowView: View {
                     .cornerRadius(4)
                 
                 // Port number
-                Text(":\(port.port)")
+                Text(":\(String(port.port))")
                     .font(.system(.body, design: .monospaced))
                     .fontWeight(.semibold)
                 
@@ -318,11 +321,23 @@ struct PortRowView: View {
                         .font(.caption)
                         .foregroundColor(.secondary)
                     
-                    Text("Command: \(port.commandLine)")
-                        .font(.caption)
-                        .foregroundColor(.secondary)
-                        .lineLimit(2)
-                        .truncationMode(.middle)
+                    HStack {
+                        Text("Command:")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                        
+                        if isLoadingCommand {
+                            ProgressView()
+                                .scaleEffect(0.5)
+                                .frame(height: 10)
+                        } else {
+                            Text(commandLine)
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                                .lineLimit(2)
+                                .truncationMode(.middle)
+                        }
+                    }
                     
                     Button(action: {
                         onKillProcess(port.processID)
@@ -342,6 +357,9 @@ struct PortRowView: View {
                     .help("Terminate this process")
                 }
                 .transition(.opacity)
+                .onAppear {
+                    loadCommandLine()
+                }
             }
         }
         .padding(8)
@@ -361,6 +379,21 @@ struct PortRowView: View {
             return .green
         default:
             return .gray
+        }
+    }
+    
+    private func loadCommandLine() {
+        guard commandLine.isEmpty else { return }
+        
+        isLoadingCommand = true
+        
+        DispatchQueue.global(qos: .userInitiated).async {
+            let cmd = port.getCommandLine()
+            
+            DispatchQueue.main.async {
+                commandLine = cmd
+                isLoadingCommand = false
+            }
         }
     }
 }

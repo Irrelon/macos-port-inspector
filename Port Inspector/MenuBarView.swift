@@ -57,6 +57,28 @@ struct MenuBarView: View {
         return ports
     }
     
+    func killProcess(pid: Int) {
+        // Kill the process using kill command
+        let killTask = Process()
+        killTask.executableURL = URL(fileURLWithPath: "/bin/kill")
+        killTask.arguments = ["-9", "\(pid)"]
+        
+        do {
+            try killTask.run()
+            killTask.waitUntilExit()
+            
+            // Give the system a moment to clean up
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                // Clear selection
+                selectedPort = nil
+                // Refresh the port list
+                portScanner.scanPorts()
+            }
+        } catch {
+            print("Failed to kill process \(pid): \(error)")
+        }
+    }
+    
     var body: some View {
         VStack(spacing: 0) {
             // Header
@@ -199,15 +221,19 @@ struct MenuBarView: View {
                 ScrollView {
                     LazyVStack(spacing: 1) {
                         ForEach(filteredPorts) { port in
-                            PortRowView(port: port, isSelected: selectedPort?.id == port.id)
-                                .contentShape(Rectangle())
-                                .onTapGesture {
-                                    if selectedPort?.id == port.id {
-                                        selectedPort = nil
-                                    } else {
-                                        selectedPort = port
-                                    }
+                            PortRowView(
+                                port: port,
+                                isSelected: selectedPort?.id == port.id,
+                                onKillProcess: killProcess
+                            )
+                            .contentShape(Rectangle())
+                            .onTapGesture {
+                                if selectedPort?.id == port.id {
+                                    selectedPort = nil
+                                } else {
+                                    selectedPort = port
                                 }
+                            }
                         }
                     }
                 }
@@ -240,6 +266,7 @@ struct MenuBarView: View {
 struct PortRowView: View {
     let port: PortInfo
     let isSelected: Bool
+    let onKillProcess: (Int) -> Void
     
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
@@ -281,7 +308,7 @@ struct PortRowView: View {
             
             // Show details when selected
             if isSelected {
-                VStack(alignment: .leading, spacing: 4) {
+                VStack(alignment: .leading, spacing: 6) {
                     Divider()
                     Text("Address: \(port.address)")
                         .font(.caption)
@@ -292,6 +319,23 @@ struct PortRowView: View {
                         .foregroundColor(.secondary)
                         .lineLimit(2)
                         .truncationMode(.middle)
+                    
+                    Button(action: {
+                        onKillProcess(port.processID)
+                    }) {
+                        HStack(spacing: 4) {
+                            Image(systemName: "xmark.circle.fill")
+                            Text("Kill Process (PID: \(port.processID))")
+                        }
+                        .font(.caption)
+                        .foregroundColor(.white)
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 4)
+                        .background(Color.red)
+                        .cornerRadius(4)
+                    }
+                    .buttonStyle(PlainButtonStyle())
+                    .help("Terminate this process")
                 }
                 .transition(.opacity)
             }

@@ -15,6 +15,7 @@ struct PortInfo: Identifiable, Hashable {
     let protocolType: String
     let state: String
     let address: String
+    let commandLine: String
     
     var displayName: String {
         "\(protocolType.uppercased()) :\(port) - \(processName) (PID: \(processID))"
@@ -28,6 +29,7 @@ struct PortInfo: Identifiable, Hashable {
         Address: \(address)
         Process: \(processName)
         PID: \(processID)
+        Command: \(commandLine)
         """
     }
 }

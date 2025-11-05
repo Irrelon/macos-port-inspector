@@ -286,6 +286,12 @@ struct PortRowView: View {
                     Text("Address: \(port.address)")
                         .font(.caption)
                         .foregroundColor(.secondary)
+                    
+                    Text("Command: \(port.commandLine)")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                        .lineLimit(2)
+                        .truncationMode(.middle)
                 }
                 .transition(.opacity)
             }

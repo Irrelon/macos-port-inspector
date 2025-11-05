@@ -4,10 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3e60c103-74d5-49a9-b3f4-abd04cfc8a21" name="Changes" comment="Update app icon">
-      <change afterPath="$PROJECT_DIR$/Port Inspector/LoginItemManager.swift" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Port Inspector/AppDelegate.swift" beforeDir="false" afterPath="$PROJECT_DIR$/Port Inspector/AppDelegate.swift" afterDir="false" />
+    <list default="true" id="3e60c103-74d5-49a9-b3f4-abd04cfc8a21" name="Changes" comment="Login item updates">
+      <change beforePath="$PROJECT_DIR$/Port Inspector.xcodeproj/project.pbxproj" beforeDir="false" afterPath="$PROJECT_DIR$/Port Inspector.xcodeproj/project.pbxproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Port Inspector/MenuBarView.swift" beforeDir="false" afterPath="$PROJECT_DIR$/Port Inspector/MenuBarView.swift" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -166,7 +164,23 @@
       <option name="project" value="LOCAL" />
       <updated>1762382683185</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="Login item updates">
+      <option name="closed" value="true" />
+      <created>1762383530966</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1762383530966</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Login item updates">
+      <option name="closed" value="true" />
+      <created>1762383709602</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1762383709602</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -192,6 +206,7 @@
     <MESSAGE value="Workspace" />
     <MESSAGE value="Updated binary" />
     <MESSAGE value="Update app icon" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update app icon" />
+    <MESSAGE value="Login item updates" />
+    <option name="LAST_COMMIT_MESSAGE" value="Login item updates" />
   </component>
 </project>

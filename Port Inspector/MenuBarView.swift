@@ -117,14 +117,16 @@ struct MenuBarView: View {
             
             // Auto-start toggle
             HStack {
-                Toggle("Start at login", isOn: $loginItemManager.isEnabled)
-                    .toggleStyle(.checkbox)
-                    .font(.caption)
-                    .onChange(of: loginItemManager.isEnabled) { oldValue, newValue in
-                        if oldValue != newValue {
+                Toggle("Start at login", isOn: Binding(
+                    get: { loginItemManager.isEnabled },
+                    set: { newValue in
+                        if newValue != loginItemManager.isEnabled {
                             loginItemManager.toggleLoginItem()
                         }
                     }
+                ))
+                .toggleStyle(.checkbox)
+                .font(.caption)
                 Spacer()
             }
             .padding(.horizontal, 8)
